@@ -14,10 +14,12 @@ Snake grows each time it eats food.
 The game ends if the snake hits the walls or itself.
 Score is displayed, and a high score is tracked.
 
-**_How to Play:**
+**_How to Play:_**
+
 **Controls:**
 
 Use arrow keys (Up, Down, Left, Right) to control the snake.
+
 **Goal:**
 
 Eat the shimmering food to grow and score points.
