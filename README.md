@@ -1,4 +1,4 @@
-# The-Snake-Game
+# A Pretty Basic "The-Snake-Game"
 **_Snake Game_**
 
 A fun and visually enhanced Snake Game built with Python using the Turtle graphics library. The game features a smooth, interactive experience with a better-looking snake and food.
