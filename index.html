@@ -1,0 +1,70 @@
+<!doctype html>
+requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+
+/* -------- Input Handling -------- */
+function setDirection(dx, dy){
+// prevent reversing
+if((dx===-dir.x && dy===-dir.y) && !(dir.x===0 && dir.y===0)) return;
+nextDir = {x:dx,y:dy};
+}
+
+
+window.addEventListener('keydown', (e)=>{
+if(e.key === 'ArrowUp' || e.key === 'w') setDirection(0,-1);
+if(e.key === 'ArrowDown' || e.key === 's') setDirection(0,1);
+if(e.key === 'ArrowLeft' || e.key === 'a') setDirection(-1,0);
+if(e.key === 'ArrowRight' || e.key === 'd') setDirection(1,0);
+if(e.key === ' '){ isRunning = !isRunning; }
+});
+
+
+// touch swipe support
+(function(){
+let startX=0,startY=0; const threshold=30;
+canvas.addEventListener('touchstart', e=>{ const t=e.changedTouches[0]; startX=t.clientX; startY=t.clientY; });
+canvas.addEventListener('touchend', e=>{
+const t=e.changedTouches[0]; const dx=t.clientX-startX; const dy=t.clientY-startY;
+if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > threshold){ if(dx>0) setDirection(1,0); else setDirection(-1,0); }
+else if(Math.abs(dy) > threshold){ if(dy>0) setDirection(0,1); else setDirection(0,-1); }
+});
+})();
+
+
+// small on-screen touch buttons
+document.getElementById('touchUp').addEventListener('click', ()=>setDirection(0,-1));
+document.getElementById('touchDown').addEventListener('click', ()=>setDirection(0,1));
+document.getElementById('touchLeft').addEventListener('click', ()=>setDirection(-1,0));
+document.getElementById('touchRight').addEventListener('click', ()=>setDirection(1,0));
+
+
+/* -------- Controls -------- */
+startBtn.addEventListener('click', ()=>{ if(!isRunning){ isRunning = true; if(dir.x===0 && dir.y===0){ setDirection(1,0); } } });
+pauseBtn.addEventListener('click', ()=>{ isRunning = !isRunning; });
+resetBtn.addEventListener('click', ()=>{ resetGame(); });
+
+
+speedRange.addEventListener('input', ()=>{ speed = parseInt(speedRange.value,10); });
+gridSizeSelect.addEventListener('change', ()=>{ resetGame(); fitCanvas(); });
+
+
+/* -------- Utilities / UX helpers -------- */
+function flashMessage(msg){
+const old = document.querySelector('.flash'); if(old) old.remove();
+const el = document.createElement('div'); el.className='flash';
+el.textContent = msg; el.style.position='fixed'; el.style.left='50%'; el.style.top='18px'; el.style.transform='translateX(-50%)';
+el.style.background='linear-gradient(90deg,#ef4444,#f97316)'; el.style.padding='8px 14px'; el.style.borderRadius='8px'; el.style.fontWeight='700'; el.style.boxShadow='0 6px 20px rgba(0,0,0,0.6)';
+document.body.appendChild(el);
+setTimeout(()=>el.remove(),2000);
+}
+
+
+// initialize
+resetGame();
+// adjust cellSize after initial fit
+setTimeout(()=>{ fitCanvas(); resetGame(); }, 50);
+</script>
+</body>
+</html>
